@@ -1,8 +1,7 @@
 import random
 import pygame
 from pygame import *
-from Character import Character
-from Enemy import Enemy
+from Characters import Player, Enemy
 
 
 # Init pygame
@@ -28,7 +27,7 @@ RIGHT = 'RIGHT'
 
 # Create Player
 radius = 10
-character = Char(CAM_W, CAM_H, W, H, YELLOW, radius)
+character = Player(CAM_W, CAM_H, W, H, YELLOW, radius)
 
 # Game Timers
 pygame.time.set_timer(USEREVENT + 1, random.randrange(3000, 5000))

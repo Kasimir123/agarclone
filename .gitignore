@@ -102,3 +102,18 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# vim temporary files
+*.swp
+
+# emacs temporary files
+*~
+
+# vscode directory
+.vscode
+
+# workspace directory
+workspace
+
+# ctags file
+tags

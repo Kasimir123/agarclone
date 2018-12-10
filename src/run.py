@@ -1,19 +1,21 @@
-# imports
+import random
 import pygame
 from pygame import *
-import random
-from character import Char
-from enemies import Enemy
+from Character import Character
+from Enemy import Enemy
+
 
 # Init pygame
 pygame.init()
 clock = pygame.time.Clock()
 
+
 # Defines constants
+# What the hell do any of these things mean? Their names are vague
 W, H = 3000, 3000
-camW, camH = 1000, 1000
+CAM_W, CAM_H = 1000, 1000
 FPS = 30
-go = True
+IS_RUNNING = True
 
 # Color Constants
 YELLOW = (255,255,0)
@@ -26,16 +28,16 @@ RIGHT = 'RIGHT'
 
 # Create Player
 radius = 10
-character = Char(camW, camH, W, H, YELLOW, radius)
+character = Char(CAM_W, CAM_H, W, H, YELLOW, radius)
 
 # Game Timers
-pygame.time.set_timer(USEREVENT+1, random.randrange(3000, 5000))
+pygame.time.set_timer(USEREVENT + 1, random.randrange(3000, 5000))
 
 # Create Enemies list
 enemies = []
 
 # Open game window
-size = (camW, camH)
+size = (CAM_W, CAM_H)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Agar")
 background = pygame.surface.Surface((W,H)).convert()
@@ -58,8 +60,9 @@ def createEnemies():
             randY = -1
         else:
             randY = 1
-        
+
         enemies.append(Enemy(X, Y, rad, YELLOW, speed, randX, randY))
+
 
 # Check for input
 def input():
@@ -76,6 +79,7 @@ def input():
     if keys[pygame.K_RIGHT]:
         character.update(RIGHT)
 
+
 # Drawing method
 def drawScreen():
     screen.blit(background, (0 ,0))
@@ -84,9 +88,10 @@ def drawScreen():
         delete = character.checkCollide(x)
         if x.pop:
             enemies.pop(enemies.index(x))
-        x.draw(screen, character.camX, character.camY, camW, camH)
+        x.draw(screen, character.camX, character.camY, CAM_W, CAM_H)
     character.draw(screen)
-    pygame.display.update() 
+    pygame.display.update()
+
 
 # Main Loop Method
 def run():
@@ -94,6 +99,7 @@ def run():
     input()
     createEnemies()
     drawScreen()
+
 
 def endScreen():
     for event in pygame.event.get():
@@ -104,6 +110,7 @@ def endScreen():
             character.radius = radius
             for x in enemies:
                 enemies.pop(enemies.index(x))
+
 
 # Main Game loop
 while True:

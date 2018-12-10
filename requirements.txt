@@ -1,0 +1,2 @@
+# These are the pip requirements to run agarclone
+pygame

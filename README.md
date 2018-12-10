@@ -1,6 +1,6 @@
 # agarclone
 
-An attempt at building my own version of agar.io with Python and Pygame.
+My attempt at building my own version of agar.io.
 
 ## Getting Started
 
@@ -19,3 +19,7 @@ python run.py
 ## Authors
 
 * **Kasimir Schulz**
+
+## Contributors
+
+* **Eli W. Hunter**

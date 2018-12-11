@@ -10,24 +10,32 @@ clock = pygame.time.Clock()
 
 
 # Defines constants
-# What the hell do any of these things mean? Their names are vague
+# Width and Height of the game
 W, H = 3000, 3000
+# Width and Height for what the player can see
 CAM_W, CAM_H = 1000, 1000
+# Frames Per Second
 FPS = 30
+# Check if the game is running or not
 IS_RUNNING = True
+
+# Player Constants
+PLAYER_RADIUS = 10
+PLAYER_SPEED = 10
 
 # Color Constants
 YELLOW = (255,255,0)
+WHITE = (255,255,255)
+BLACK = (0,0,0)
 
 # Direction Constants
-UP = 'UP'
-DOWN = 'DOWN'
-LEFT = 'LEFT'
-RIGHT = 'RIGHT'
+UP = 'up()'
+DOWN = 'down()'
+LEFT = 'left()'
+RIGHT = 'right()'
 
 # Create Player
-radius = 10
-character = Player(CAM_W, CAM_H, W, H, YELLOW, radius)
+character = Player(CAM_W, CAM_H, W, H, YELLOW, PLAYER_RADIUS, PLAYER_SPEED)
 
 # Game Timers
 pygame.time.set_timer(USEREVENT + 1, random.randrange(3000, 5000))
@@ -40,7 +48,7 @@ size = (CAM_W, CAM_H)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Agar")
 background = pygame.surface.Surface((W,H)).convert()
-background.fill((0,0,0))
+background.fill(BLACK)
 
 # Create enemies
 def createEnemies():
@@ -84,10 +92,12 @@ def drawScreen():
     screen.blit(background, (0 ,0))
     for x in enemies:
         x.move(W, H)
-        delete = character.checkCollide(x)
+        character.checkCollide(x)
+        for y in enemies:
+            x.checkCollide(y)
         if x.pop:
             enemies.pop(enemies.index(x))
-        x.draw(screen, character.camX, character.camY, CAM_W, CAM_H)
+        x.draw(screen, character.cam_x, character.cam_y, CAM_W, CAM_H)
     character.draw(screen)
     pygame.display.update()
 
@@ -105,10 +115,10 @@ def endScreen():
         if event.type == QUIT:
             exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            character.alive = True
-            character.radius = radius
             for x in enemies:
                 enemies.pop(enemies.index(x))
+            character.alive = True
+            character.radius = PLAYER_RADIUS
 
 
 # Main Game loop

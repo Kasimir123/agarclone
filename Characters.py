@@ -7,7 +7,7 @@ from pygame import Rect
 POINT_MULTIPLY = 100
 POINT_PERCENTAGE_TAKEN_BY_PLAYER = .25
 POINT_PERCENTAGE_TAKEN_BY_ENEMY = .1
-POINTS_FOR_KILL = 50
+POINTS_FOR_KILL = 200
 PERCENTAGE_OF_POINTS_GAINED_BY_PLAYER = .25
 PERCENTAGE_OF_POINTS_GAINED_BY_ENEMY = .25
 
@@ -28,9 +28,6 @@ class Player:
         self.cam_x = 0
         self.cam_y = 0
         self.points = self.radius * POINT_MULTIPLY
-        self.x_offset = self.radius // 1.25
-        self.hitbox = Rect(self.x - self.x_offset, self.y - self.x_offset,
-                           self.radius * 1.75, self.radius * 1.75)
 
 
     def draw(self, screen):
@@ -60,16 +57,22 @@ class Player:
     def update(self,direction):
         '''Temporary docstring
         '''
-
         eval("self." + direction)
-        self.hitbox = Rect(self.x - self.x_offset, self.y - self.x_offset,
-                           self.radius * 1.75, self.radius * 1.75)
+    
+    def checkCollideDistance(self, x):
+        distance = math.sqrt(((self.x - x.x) ** 2) + ((self.y - x.y) ** 2))
+        if distance < 0:
+            distance = distance * -1
+        if distance <= self.radius + x.radius:
+            return True
+        else:
+            return False
 
 
     def checkCollide(self, x):
         '''Temporary docstring
         '''
-        if self.hitbox.colliderect(x.hitbox):
+        if self.checkCollideDistance(x):
             if self.points > x.points:
                 if  x.points <= POINTS_FOR_KILL:
                     self.points += x.points
@@ -108,9 +111,6 @@ class Enemy:
         self.rand_y = rand_y
         self.pop = False
         self.points = self.radius * POINT_MULTIPLY
-        self.x_offset = self.radius // 1.25
-        self.hitbox = Rect(self.x - self.x_offset, self.y - self.x_offset,
-                           self.radius * 1.75, self.radius * 1.75)
 
 
     def draw(self, screen, cam_x, cam_y, cam_w, cam_h):
@@ -150,15 +150,21 @@ class Enemy:
             self.y += self.speed
         elif self.y > h:
             self.y -= self.speed
-
-        self.hitbox = Rect(self.x - self.x_offset, self.y - self.x_offset,
-                           self.radius * 1.75, self.radius * 1.75)
+    
+    def checkCollideDistance(self, x):
+        distance = math.sqrt(((self.x - x.x) ** 2) + ((self.y - x.y) ** 2))
+        if distance < 0:
+            distance = distance * -1
+        if distance <= self.radius + x.radius:
+            return True
+        else:
+            return False
 
 
     def checkCollide(self, x):
         '''Temporary docstring
         '''
-        if self.hitbox.colliderect(x.hitbox):
+        if self.checkCollideDistance(x):
             if self.points > x.points:
                 if  x.points <= POINTS_FOR_KILL:
                     self.points += x.points
@@ -168,7 +174,7 @@ class Enemy:
                     x.points -= x.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY
                 if x.points <= 0:
                     x.pop = True
-            elif self.hitbox == x.hitbox:
+            elif self.points == x.points:
                 pass
             else:
                 if self.points <= POINTS_FOR_KILL:

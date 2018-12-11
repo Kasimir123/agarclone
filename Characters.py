@@ -5,8 +5,11 @@ from pygame import Rect
 
 # Constants:
 POINT_MULTIPLY = 100
-POINT_PERCENTAGE_TAKEN = .25
+POINT_PERCENTAGE_TAKEN_BY_PLAYER = .25
+POINT_PERCENTAGE_TAKEN_BY_ENEMY = .1
 POINTS_FOR_KILL = 50
+PERCENTAGE_OF_POINTS_GAINED_BY_PLAYER = .25
+PERCENTAGE_OF_POINTS_GAINED_BY_ENEMY = .25
 
 
 class Player:
@@ -72,8 +75,8 @@ class Player:
                     self.points += x.points
                     x.points -= x.points
                 else:
-                    self.points += x.points * POINT_PERCENTAGE_TAKEN
-                    x.points -= x.points * POINT_PERCENTAGE_TAKEN
+                    self.points += x.points * POINT_PERCENTAGE_TAKEN_BY_PLAYER * PERCENTAGE_OF_POINTS_GAINED_BY_PLAYER
+                    x.points -= x.points * POINT_PERCENTAGE_TAKEN_BY_PLAYER
                 if x.points <= 0:
                     x.pop = True
             else:
@@ -81,8 +84,8 @@ class Player:
                     x.points += self.points
                     self.points -= self.points
                 else:
-                    x.points += self.points * POINT_PERCENTAGE_TAKEN
-                    self.points -= self.points * POINT_PERCENTAGE_TAKEN
+                    x.points += self.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY * PERCENTAGE_OF_POINTS_GAINED_BY_ENEMY
+                    self.points -= self.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY
                 if self.points <= 0:
                     self.alive = False
             self.radius = int(self.points / POINT_MULTIPLY)
@@ -161,8 +164,8 @@ class Enemy:
                     self.points += x.points
                     x.points -= x.points
                 else:
-                    self.points += x.points * POINT_PERCENTAGE_TAKEN
-                    x.points -= x.points * POINT_PERCENTAGE_TAKEN
+                    self.points += x.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY  * PERCENTAGE_OF_POINTS_GAINED_BY_ENEMY
+                    x.points -= x.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY
                 if x.points <= 0:
                     x.pop = True
             elif self.hitbox == x.hitbox:
@@ -172,8 +175,8 @@ class Enemy:
                     x.points += self.points
                     self.points -= self.points
                 else:
-                    x.points += self.points * POINT_PERCENTAGE_TAKEN
-                    self.points -= self.points * POINT_PERCENTAGE_TAKEN
+                    x.points += self.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY  * PERCENTAGE_OF_POINTS_GAINED_BY_ENEMY
+                    self.points -= self.points * POINT_PERCENTAGE_TAKEN_BY_ENEMY
                 if self.points <= 0:
                     self.alive = False
             self.radius = int(self.points / POINT_MULTIPLY)

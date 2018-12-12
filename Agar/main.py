@@ -27,6 +27,15 @@ PLAYER_SPEED = 10
 YELLOW = (255,255,0)
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+RED = (255,0,0)
+NUM_OF_COLORS = 3
+
+# Color Switch
+colors = {
+    1: YELLOW,
+    2: WHITE,
+    3: RED
+}
 
 # Direction Constants
 UP = 'up()'
@@ -50,12 +59,14 @@ pygame.display.set_caption("Agar")
 background = pygame.surface.Surface((W,H)).convert()
 background.fill(BLACK)
 
+
 # Create enemies
 def createEnemies():
     if len(enemies) < 250:
         X = random.randint(0, W)
         Y = random.randint(0, H)
         rad = random.randint(1, 25)
+        color = random.randint(1, NUM_OF_COLORS)
         speed = int(50 / rad)
         randCheck = random.randint(0,1)
         if randCheck == 1:
@@ -68,7 +79,7 @@ def createEnemies():
         else:
             randY = 1
 
-        enemies.append(Enemy(X, Y, rad, YELLOW, speed, randX, randY))
+        enemies.append(Enemy(X, Y, rad, colors[color], speed, randX, randY))
 
 
 # Check for input

@@ -7,6 +7,8 @@ My attempt at building my own version of agar.io.
 ``` shell
 # Clone the repository
 git clone <repositoy-url>
+# CD into the game that you wish to play
+cd <game-directory>
 # Execute the main run script
 python run.py
 ```
@@ -23,3 +25,9 @@ python run.py
 ## Contributors
 
 * **Eli W. Hunter**
+
+## Games:
+* Agar
+* Pong:
+  * Single player version against an AI
+  * Two player version against another player (arrow keys for left side, ws for right side)
